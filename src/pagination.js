@@ -6,7 +6,6 @@ const Xpagination = () => {
   const [userData, setUserData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(10);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchEmpData = async () => {
@@ -14,7 +13,7 @@ const Xpagination = () => {
         const response = await axios.get('https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json');
         setUserData(response.data);
       } catch (error) {
-        alert('Failed to fetch data');
+        alert('failed to fetch data');
         console.log(error);
       }
     };
