@@ -11,7 +11,11 @@ const Xpagination = () => {
     const fetchEmpData = async () => {
       try {
         const response = await axios.get('https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json');
-        setUserData(response.data);
+        if(response.data){
+            setUserData(response.data);
+        }else{
+            window.alert('failed to fetch data');
+        }  
       } catch (error) {
         if (typeof window !== 'undefined') {
             window.alert('failed to fetch data');
