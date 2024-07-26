@@ -14,7 +14,7 @@ const Xpagination = () => {
         const response = await axios.get('https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json');
         setUserData(response.data);
       } catch (error) {
-        setError('Failed to fetch data');
+        alert('Failed to fetch data');
         console.log(error);
       }
     };
@@ -39,6 +39,7 @@ const Xpagination = () => {
 
   return (
     <div className="table-container">
+        <h1 style={{textAlign:'center'}}>Employee Data Table</h1>
       <table>
         <thead>
           <tr>
