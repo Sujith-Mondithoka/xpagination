@@ -9,22 +9,15 @@ const Xpagination = () => {
   const [usersPerPage] = useState(10);
 
   useEffect(() => {
-    const fetchEmpData = async () => {
-      try {
-        const response = await axios.get('https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json');
-        if(response.data){
-            setUserData(response.data);
-        }else{
-            window.alert('failed to fetch data');
-        }  
-      } catch (error) {
+    axios.get('https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json')
+      .then(response => {
+        setData(response.data);
+      })
+      .catch(error => {
         console.error('Error fetching data:', error);
         setError('failed to fetch data');
-        alert('failed to fetch data');
- 
-      }
-    };
-    fetchEmpData();
+        alert('Failed to fetch data');
+      });
   }, []);
   if (error) {
     return <div>{error}</div>;
