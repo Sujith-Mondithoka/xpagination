@@ -20,7 +20,7 @@ const Xpagination = () => {
       } catch (error) {
         console.error('Error fetching data:', error);
         setError('failed to fetch data');
-        alert('Failed to fetch data');
+        alert('failed to fetch data');
  
       }
     };
