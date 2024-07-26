@@ -11,12 +11,12 @@ const Xpagination = () => {
   useEffect(() => {
     axios.get('https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json')
       .then(response => {
-        setData(response.data);
+        setUserData(response.data);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
         setError('failed to fetch data');
-        alert('Failed to fetch data');
+        alert('failed to fetch data');
       });
   }, []);
   if (error) {
