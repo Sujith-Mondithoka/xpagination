@@ -13,7 +13,9 @@ const Xpagination = () => {
         const response = await axios.get('https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json');
         setUserData(response.data);
       } catch (error) {
-        alert('failed to fetch data');
+        if (typeof window !== 'undefined') {
+            window.alert('failed to fetch data');
+        }
         console.log(error);
       }
     };
