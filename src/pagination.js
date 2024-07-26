@@ -5,7 +5,6 @@ import './xpagination.css';
 const Xpagination = () => {
   const [userData, setUserData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [error, setError] = useState(null);
   const [usersPerPage] = useState(10);
 
   useEffect(() => {
@@ -14,14 +13,10 @@ const Xpagination = () => {
         setUserData(response.data);
       })
       .catch(error => {
-        console.error('Error fetching data:', error);
-        setError('failed to fetch data');
         alert('failed to fetch data');
+        console.log(error);
       });
   }, []);
-  if (error) {
-    return <div>{error}</div>;
-  }
 
   const handleNextPage = () => {
     if (currentPage * usersPerPage < userData.length) {
