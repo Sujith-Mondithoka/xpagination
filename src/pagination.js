@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './xpagination.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./xpagination.css";
 
 const Xpagination = () => {
   const [userData, setUserData] = useState([]);
@@ -8,25 +8,28 @@ const Xpagination = () => {
   const [usersPerPage] = useState(10);
 
   useEffect(() => {
-    axios.get('https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json')
-      .then(response => {
+    axios
+      .get(
+        "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json"
+      )
+      .then((response) => {
         setUserData(response.data);
       })
-      .catch(error => {
-        alert('failed to fetch data');
+      .catch((error) => {
+        alert("failed to fetch data");
         console.log(error);
       });
   }, []);
 
   const handleNextPage = () => {
     if (currentPage * usersPerPage < userData.length) {
-      setCurrentPage(prevPage => prevPage + 1);
+      setCurrentPage((prevPage) => prevPage + 1);
     }
   };
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(prevPage => prevPage - 1);
+      setCurrentPage((prevPage) => prevPage - 1);
     }
   };
 
@@ -36,7 +39,7 @@ const Xpagination = () => {
 
   return (
     <div className="table-container">
-        <h1 style={{textAlign:'center'}}>Employee Data Table</h1>
+      <h1 style={{ textAlign: "center" }}>Employee Data Table</h1>
       <table>
         <thead>
           <tr>
@@ -47,7 +50,7 @@ const Xpagination = () => {
           </tr>
         </thead>
         <tbody>
-          {currentUsers.map(user => (
+          {currentUsers.map((user) => (
             <tr key={user.id}>
               <td>{user.id}</td>
               <td>{user.name}</td>
@@ -57,12 +60,25 @@ const Xpagination = () => {
           ))}
         </tbody>
       </table>
-      <div style={{ marginTop: '20px', textAlign: 'center' }}>
+      <div style={{ marginTop: "20px", textAlign: "center" }}>
         <button onClick={handlePreviousPage} disabled={currentPage === 1}>
           Previous
         </button>
-        <span style={{ margin: '0 10px',background:'rgb(0, 156, 34)',padding:'15px',borderRadius:'5px' ,color:'white' }}>{currentPage}</span>
-        <button onClick={handleNextPage} disabled={currentPage * usersPerPage >= userData.length}>
+        <span
+          style={{
+            margin: "0 10px",
+            background: "rgb(0, 156, 34)",
+            padding: "15px",
+            borderRadius: "5px",
+            color: "white",
+          }}
+        >
+          {currentPage}
+        </span>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage * usersPerPage >= userData.length}
+        >
           Next
         </button>
       </div>
