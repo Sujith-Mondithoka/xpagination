@@ -1,9 +1,8 @@
-
-import Xpagination from "./pagination";
+import PaginationComponent from "./pagination";
 function App() {
   return (
     <div className="App">
-      <Xpagination />
+      <PaginationComponent />
     </div>
   );
 }
