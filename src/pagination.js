@@ -16,7 +16,7 @@ const PaginationComponent = () => {
         );
         const responseData = await response.data;
         setData(responseData);
-        setTotalPages(Math.ceil(data.length / itemsPerPage));
+        setTotalPages(Math.ceil(responseData.length / itemsPerPage));
       } catch (error) {
         alert("Failed to fetch data");
       }
@@ -79,7 +79,7 @@ const PaginationComponent = () => {
       </table>
       <div className="pageButton">
         <button onClick={handlePrevious}>Previous</button>
-        <span className="pageNumber">{" "} {currentPage}{" "} </span>
+        <span className="pageNumber"> {currentPage} </span>
         <button onClick={handleNext}>Next</button>
       </div>
     </div>
