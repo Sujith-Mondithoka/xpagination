@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import "./xpagination.css";
 
 const PaginationComponent = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const itemsPerPage = 10;
+  const rowsPerPage = 10;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
+        const response = await fetch(
           "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json"
         );
-        const responseData = await response.data;
-        setData(responseData);
-        setTotalPages(Math.ceil(responseData.length / itemsPerPage));
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const result = await response.json();
+        setData(result);
       } catch (error) {
         alert("Failed to fetch data");
       }
@@ -25,21 +25,22 @@ const PaginationComponent = () => {
     fetchData();
   }, []);
 
-  const handlePrevious = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+  const currentData = data.slice(indexOfFirstRow, indexOfLastRow);
 
-  const handleNext = () => {
+  const totalPages = Math.ceil(data.length / rowsPerPage);
+  const handleNextPage = () => {
     if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+      setCurrentPage((prev) => prev + 1);
     }
   };
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = Math.min(startIndex + itemsPerPage, data.length);
-  const currentData = data.slice(startIndex, endIndex);
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
 
   return (
     <div>
@@ -78,9 +79,9 @@ const PaginationComponent = () => {
         </tbody>
       </table>
       <div className="pageButton">
-        <button onClick={handlePrevious}>Previous</button>
+        <button onClick={handlePreviousPage}>Previous</button>
         <span className="pageNumber"> {currentPage} </span>
-        <button onClick={handleNext}>Next</button>
+        <button onClick={handleNextPage}>Next</button>
       </div>
     </div>
   );
