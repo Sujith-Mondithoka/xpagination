@@ -11,7 +11,7 @@ const PaginationComponent = () => {
     fetch(`https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json?page=${currentPage}&limit=${itemsPerPage}`)
       .then(response => response.json())
       .then(data => setData(data))
-      .catch(error => console.error(error));
+      .catch(error => alert('failed to fetch data'));
   }, [currentPage, itemsPerPage]);
 
   const totalPages = Math.ceil(data.length / itemsPerPage);
