@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./xpagination.css";
+import axios from 'axios';
 
 const PaginationComponent = () => {
   const [data, setData] = useState([]);
@@ -9,14 +10,10 @@ const PaginationComponent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json"
+        const response = await axios.get(
+          'https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json'
         );
-        if (!response.ok) {
-          throw new Error("failed to fetch data");
-        }
-        const result = await response.json();
-        setData(result);
+        setData(response.data);
       } catch (error) {
         alert("failed to fetch data");
       }
