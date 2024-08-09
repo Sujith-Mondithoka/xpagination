@@ -14,7 +14,7 @@ const PaginationComponent = () => {
         const response = await axios.get(
           "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json"
         );
-        const data = response.data;
+        const data = await response.data;
         setData(data);
         setTotalPages(Math.ceil(data.length / itemsPerPage));
       } catch (error) {
@@ -78,16 +78,9 @@ const PaginationComponent = () => {
         </tbody>
       </table>
       <div className="pageButton">
-        <button onClick={handlePrevious} disabled={currentPage === 1}>
-          Previous
-        </button>
-        <span>
-          {" "}
-          {currentPage} of {totalPages}{" "}
-        </span>
-        <button onClick={handleNext} disabled={currentPage === totalPages}>
-          Next
-        </button>
+        <button onClick={handlePrevious}>Previous</button>
+        <span className="pageNumber">{" "} {currentPage}{" "} </span>
+        <button onClick={handleNext}>Next</button>
       </div>
     </div>
   );
