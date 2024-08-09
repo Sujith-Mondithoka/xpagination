@@ -43,6 +43,15 @@ const PaginationComponent = () => {
 
   return (
     <div>
+      <h1
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        Employee Data Table
+      </h1>
       <table
         border="1"
         cellPadding="10"
