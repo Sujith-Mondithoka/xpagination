@@ -13,12 +13,12 @@ const PaginationComponent = () => {
           "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json"
         );
         if (!response.ok) {
-          throw new Error("Failed to fetch data");
+          throw new Error("failed to fetch data");
         }
         const result = await response.json();
         setData(result);
       } catch (error) {
-        alert("Failed to fetch data");
+        alert("failed to fetch data");
       }
     };
 
