@@ -13,12 +13,17 @@ const PaginationComponent = () => {
         const response = await axios.get(
           'https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json'
         );
-        setData(response.data);
+  
+        if (response.data.length === 0) {
+          alert('failed to fetch data');
+        } else {
+          setData(response.data);
+        }
       } catch (error) {
         alert("failed to fetch data");
       }
     };
-
+  
     fetchData();
   }, []);
 
