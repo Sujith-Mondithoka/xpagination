@@ -14,8 +14,8 @@ const PaginationComponent = () => {
         const response = await axios.get(
           "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json"
         );
-        const data = await response.data;
-        setData(data);
+        const responseData = await response.data;
+        setData(responseData);
         setTotalPages(Math.ceil(data.length / itemsPerPage));
       } catch (error) {
         alert("Failed to fetch data");
