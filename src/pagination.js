@@ -1,32 +1,23 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
 import "./xpagination.css";
 
 const PaginationComponent = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const itemsPerPage = 10;
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          'https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json'
-        );
-        
-        if (response.data.length === 0) {
-          throw new Error('No data available');
-        }
-        setData(response.data);
-        setTotalPages(Math.ceil(response.data.length / itemsPerPage));
-      } catch (error) {
-        alert("Failed to fetch data");
-      }
-    };
+    fetch(`https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json?page=${currentPage}&limit=${itemsPerPage}`)
+      .then(response => response.json())
+      .then(data => setData(data))
+      .catch(error => console.error(error));
+  }, [currentPage, itemsPerPage]);
 
-    fetchData();
-  }, []);
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = data.slice(startIndex, endIndex);
 
   const handlePrevious = () => {
     if (currentPage > 1) {
@@ -40,9 +31,6 @@ const PaginationComponent = () => {
     }
   };
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = Math.min(startIndex + itemsPerPage, data.length);
-  const currentData = data.slice(startIndex, endIndex);
 
   return (
     <div>
