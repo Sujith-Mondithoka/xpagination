@@ -8,7 +8,7 @@ const PaginationComponent = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
-    fetch(`https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json?page=${currentPage}&limit=${itemsPerPage}`)
+    fetch(`https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json`)
       .then(response => response.json())
       .then(data => setData(data))
       .catch(error => alert('failed to fetch data'));
