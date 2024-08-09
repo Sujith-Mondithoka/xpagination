@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./xpagination.css";
-import axios from 'axios';
 
 const PaginationComponent = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 10;
+  const [totalPages, setTotalPages] = useState(0);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,34 +16,33 @@ const PaginationComponent = () => {
         );
         
         if (response.data.length === 0) {
-          throw new Error('failed to fetch data');
+          throw new Error('No data available');
         }
-
         setData(response.data);
+        setTotalPages(Math.ceil(response.data.length / itemsPerPage));
       } catch (error) {
-        alert(error.message || "failed to fetch data"); // Display the error message
+        alert("Failed to fetch data");
       }
     };
 
     fetchData();
   }, []);
 
-  const indexOfLastRow = currentPage * rowsPerPage;
-  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentData = data.slice(indexOfFirstRow, indexOfLastRow);
-
-  const totalPages = Math.ceil(data.length / rowsPerPage);
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage((prev) => prev + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
+  const handlePrevious = () => {
     if (currentPage > 1) {
-      setCurrentPage((prev) => prev - 1);
+      setCurrentPage(currentPage - 1);
     }
   };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, data.length);
+  const currentData = data.slice(startIndex, endIndex);
 
   return (
     <div>
@@ -81,9 +81,9 @@ const PaginationComponent = () => {
         </tbody>
       </table>
       <div className="pageButton">
-        <button onClick={handlePreviousPage}>Previous</button>
+        <button onClick={handlePrevious}>Previous</button>
         <span className="pageNumber"> {currentPage} </span>
-        <button onClick={handleNextPage}>Next</button>
+        <button onClick={handleNext}>Next</button>
       </div>
     </div>
   );
