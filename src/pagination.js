@@ -21,7 +21,7 @@ export default function EmployeeDataTable() {
         setEmployeeData(data);
       } catch (error) {
         setError(error.message);
-        alert("Failed to fetch data"); // Alert message on fetch failure
+        alert("Failed to fetch data");
       }
     };
 
@@ -45,7 +45,7 @@ export default function EmployeeDataTable() {
   };
 
   if (error) {
-    return <p>{error}</p>; // Display error message if there is any
+    return <p>{error}</p>;
   }
 
   return (
