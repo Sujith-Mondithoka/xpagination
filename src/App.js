@@ -1,8 +1,8 @@
-import PaginationComponent from "./pagination";
+import EmployeeDataTable from "./pagination";
 function App() {
   return (
     <div className="App">
-      <PaginationComponent />
+      <EmployeeDataTable />
     </div>
   );
 }
