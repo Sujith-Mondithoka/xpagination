@@ -1,4 +1,4 @@
-import EmployeeDataTable from "./pagination";
+import EmployeeDataTable from "./pagination.js";
 function App() {
   return (
     <div className="App">
