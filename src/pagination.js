@@ -34,13 +34,13 @@ export default function EmployeeDataTable() {
 
   const handleNextPage = () => {
     if (currentPage < Math.ceil(employeeData.length / rowsPerPage)) {
-      setCurrentPage(currentPage + 1);
+      setCurrentPage((prevPage) => prevPage + 1);
     }
   };
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      setCurrentPage((prevPage) => prevPage - 1);
     }
   };
 
@@ -72,27 +72,9 @@ export default function EmployeeDataTable() {
         </tbody>
       </table>
       <div className="pagination-container">
-        <button
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1 && employeeData.length === 0}
-          aria-disabled={currentPage === 1 && employeeData.length === 0}
-        >
-          Previous
-        </button>
+        <button onClick={handlePreviousPage}>Previous</button>
         <span>{currentPage}</span>
-        <button
-          onClick={handleNextPage}
-          disabled={
-            currentPage === Math.ceil(employeeData.length / rowsPerPage) &&
-            employeeData.length === 0
-          }
-          aria-disabled={
-            currentPage === Math.ceil(employeeData.length / rowsPerPage) &&
-            employeeData.length === 0
-          }
-        >
-          Next
-        </button>
+        <button onClick={handleNextPage}>Next</button>
       </div>
     </div>
   );
