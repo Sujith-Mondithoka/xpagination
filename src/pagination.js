@@ -72,9 +72,18 @@ export default function EmployeeDataTable() {
         </tbody>
       </table>
       <div className="pagination-container">
-        <button onClick={handlePreviousPage}>Previous</button>
+        <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+          Previous
+        </button>
         <span>{currentPage}</span>
-        <button onClick={handleNextPage}>Next</button>
+        <button
+          onClick={handleNextPage}
+          disabled={
+            currentPage === Math.ceil(employeeData.length / rowsPerPage)
+          }
+        >
+          Next
+        </button>
       </div>
     </div>
   );
