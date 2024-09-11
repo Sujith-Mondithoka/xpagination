@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "./xpagination.css";
+import "./Xpagination.css";
 
-export default function EmployeeDataTable() {
+const EmployeeDataTable = () => {
   const [members, setMembers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -68,11 +68,12 @@ export default function EmployeeDataTable() {
         <button disabled={currentPage === 1} onClick={handlePrevious}>
           Previous
         </button>
-        <span>{currentPage}</span>
+        <span> {currentPage} </span>
         <button disabled={currentPage === totalPages} onClick={handleNext}>
           Next
         </button>
       </div>
     </div>
   );
-}
+};
+export default EmployeeDataTable;
