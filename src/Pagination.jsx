@@ -2,44 +2,51 @@ import React, { useEffect, useState } from "react";
 import "./Pagination.css";
 
 const EmployeeDataTable = () => {
-  const [members, setMembers] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(1);
+  const [data, setData] = useState([]);
+    const [page, setPage] = useState(0);
+    const [filteredData, setFilteredData] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json"
-        );
-        const data = await response.json();
-        setMembers(data);
-        setTotalPages(Math.ceil(data.length / 10));
-      } catch (error) {
-        alert("failed to fetch data");
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const handlePrevious = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+    const fetchData = async() => {
+        try{
+            const apiData = await fetch("https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json");
+            const actualData = await apiData.json();
+            // console.log(actualData);
+            setData(actualData);
+        }catch(err){
+            console.log("failed to fetch data", err);
+            alert("failed to fetch data");
+        }
     }
-  };
 
-  const handleNext = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+    const updateFilterData = () => {
+        const updateData = data.filter((newData) => {
+            if (newData.id > page * 10 && newData.id <= (page + 1) * 10) {
+                return newData;
+            }
+            return false; 
+        });
+        setFilteredData(updateData);
     }
-  };
+    
+    const decrement = () => {
+        if(page >= 1){
+            setPage(page - 1);
+        }
+    }
 
-  const getVisibleMembers = () => {
-    const startIndex = (currentPage + 1) * 10;
-    const endIndex = Math.min(startIndex + 10, members.length);
-    return members.slice(startIndex, endIndex);
-  };
+    const increment = () => {
+        if(data[(page+1)*10]){
+            setPage(page + 1);
+        }
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        updateFilterData();
+    }, [data, page]);
 
   return (
     <div>
@@ -54,7 +61,7 @@ const EmployeeDataTable = () => {
           </tr>
         </thead>
         <tbody>
-          {getVisibleMembers().map((employee) => (
+          {filteredData.map((employee) => (
             <tr key={employee.id}>
               <td>{employee.id}</td>
               <td>{employee.name}</td>
@@ -65,11 +72,11 @@ const EmployeeDataTable = () => {
         </tbody>
       </table>
       <div className="pagination-container">
-        <button disabled={currentPage === 1} onClick={handlePrevious}>
+        <button onClick={decrement}>
           Previous
         </button>
-        <span> {currentPage} </span>
-        <button disabled={currentPage === totalPages} onClick={handleNext}>
+        <span> {page + 1} </span>
+        <button onClick={increment}>
           Next
         </button>
       </div>
