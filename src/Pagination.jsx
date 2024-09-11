@@ -36,7 +36,7 @@ const EmployeeDataTable = () => {
   };
 
   const getVisibleMembers = () => {
-    const startIndex = (currentPage - 1) * 10;
+    const startIndex = (currentPage + 1) * 10;
     const endIndex = Math.min(startIndex + 10, members.length);
     return members.slice(startIndex, endIndex);
   };
