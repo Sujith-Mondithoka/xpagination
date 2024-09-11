@@ -49,7 +49,7 @@ const EmployeeDataTable = () => {
     }, [data, page]);
 
   return (
-    <div>
+    <>
       <h2>Employee Data Table</h2>
       <table>
         <thead>
@@ -71,7 +71,7 @@ const EmployeeDataTable = () => {
           ))}
         </tbody>
       </table>
-      <div className="pagination-container">
+      <div>
         <button onClick={decrement}>
           Previous
         </button>
@@ -80,7 +80,7 @@ const EmployeeDataTable = () => {
           Next
         </button>
       </div>
-    </div>
+    </>
   );
 };
 export default EmployeeDataTable;
