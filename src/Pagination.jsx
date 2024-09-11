@@ -3,7 +3,7 @@ import "./Pagination.css";
 
 const EmployeeDataTable = () => {
   const [members, setMembers] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
