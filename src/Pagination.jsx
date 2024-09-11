@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Xpagination.css";
+import "./Pagination.css";
 
 const EmployeeDataTable = () => {
   const [members, setMembers] = useState([]);
