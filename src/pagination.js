@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./xpagination.css";
 
 export default function EmployeeDataTable() {
-  const [employeeData, setEmployeeData] = useState([]);
+  const [members, setMembers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [error, setError] = useState(null);
-
-  const rowsPerPage = 10;
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,39 +12,34 @@ export default function EmployeeDataTable() {
         const response = await fetch(
           "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json"
         );
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
         const data = await response.json();
-        setEmployeeData(data);
+        setMembers(data);
+        setTotalPages(Math.ceil(data.length / 10));
       } catch (error) {
-        setError(error.message);
-        alert("Failed to fetch data");
+        alert("failed to fetch data");
       }
     };
 
     fetchData();
   }, []);
 
-  const startIndex = (currentPage - 1) * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-  const currentData = employeeData.slice(startIndex, endIndex);
-
-  const handleNextPage = () => {
-    if (currentPage < Math.ceil(employeeData.length / rowsPerPage)) {
-      setCurrentPage((prevPage) => prevPage + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
+  const handlePrevious = () => {
     if (currentPage > 1) {
-      setCurrentPage((prevPage) => prevPage - 1);
+      setCurrentPage(currentPage - 1);
     }
   };
 
-  if (error) {
-    return <p>{error}</p>;
-  }
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const getVisibleMembers = () => {
+    const startIndex = (currentPage - 1) * 10;
+    const endIndex = Math.min(startIndex + 10, members.length);
+    return members.slice(startIndex, endIndex);
+  };
 
   return (
     <div>
@@ -61,7 +54,7 @@ export default function EmployeeDataTable() {
           </tr>
         </thead>
         <tbody>
-          {currentData.map((employee) => (
+          {getVisibleMembers().map((employee) => (
             <tr key={employee.id}>
               <td>{employee.id}</td>
               <td>{employee.name}</td>
@@ -72,9 +65,13 @@ export default function EmployeeDataTable() {
         </tbody>
       </table>
       <div className="pagination-container">
-        <button onClick={handlePreviousPage}>Previous</button>
+        <button disabled={currentPage === 1} onClick={handlePrevious}>
+          Previous
+        </button>
         <span>{currentPage}</span>
-        <button onClick={handleNextPage}>Next</button>
+        <button disabled={currentPage === totalPages} onClick={handleNext}>
+          Next
+        </button>
       </div>
     </div>
   );
